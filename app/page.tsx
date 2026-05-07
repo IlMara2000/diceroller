@@ -3,38 +3,61 @@ import { useState } from 'react';
 import Dice from '../components/Dice';
 
 export default function Home() {
-  const [diceValue, setDiceValue] = useState<number>(1);
+  const [diceValue, setDiceValue] = useState<number>(20);
+  const [diceType, setDiceType] = useState<number>(20);
   const [isRolling, setIsRolling] = useState(false);
 
-  const rollDice = () => {
+  const dadi = [4, 6, 8, 10, 12, 20, 100];
+
+  const rollDice = (faces: number) => {
+    setDiceType(faces);
     setIsRolling(true);
-    // Animazione fake di 500ms
+    
     setTimeout(() => {
-      const newValue = Math.floor(Math.random() * 6) + 1;
+      const newValue = Math.floor(Math.random() * faces) + 1;
       setDiceValue(newValue);
       setIsRolling(false);
-    }, 500);
+    }, 600);
   };
 
   return (
-    <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', gap: '20px', fontFamily: 'sans-serif' }}>
-      <h1>Lancia il Dado</h1>
+    <main style={{ 
+      display: 'flex', flexDirection: 'column', alignItems: 'center', 
+      justifyContent: 'center', minHeight: '100vh', gap: '30px', padding: '20px' 
+    }}>
+      <div style={{ textAlign: 'center' }}>
+        <h1 style={{ fontSize: '2rem', marginBottom: '10px' }}>D&D Dice Roller</h1>
+        <p>Stai lanciando un <strong>d{diceType}</strong></p>
+      </div>
+
       <Dice value={diceValue} isRolling={isRolling} />
-      <button 
-        onClick={rollDice}
-        disabled={isRolling}
-        style={{
-          padding: '10px 20px',
-          fontSize: '1.2rem',
-          cursor: 'pointer',
-          backgroundColor: '#0070f3',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px'
-        }}
-      >
-        {isRolling ? 'Lancio in corso...' : 'Lancia!'}
-      </button>
+
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(4, 1fr)', 
+        gap: '10px', 
+        maxWidth: '400px' 
+      }}>
+        {dadi.map((f) => (
+          <button 
+            key={f}
+            onClick={() => rollDice(f)}
+            disabled={isRolling}
+            style={{
+              padding: '12px',
+              fontSize: '1rem',
+              cursor: 'pointer',
+              backgroundColor: diceType === f ? '#0070f3' : '#333',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              transition: '0.2s'
+            }}
+          >
+            d{f}
+          </button>
+        ))}
+      </div>
     </main>
   );
 }
