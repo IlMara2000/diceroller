@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import Dice from '@/components/Dice';
+import Dice from '../components/Dice';
 
 export default function Home() {
   const [diceValue, setDiceValue] = useState<number>(1);
