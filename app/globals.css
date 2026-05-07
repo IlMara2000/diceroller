@@ -4,6 +4,7 @@
   --dice-bg: #ffffff;
   --dice-shadow: rgba(0, 0, 0, 0.2);
   --accent-color: #0070f3;
+  --text-color: #333;
 }
 
 body {
@@ -14,18 +15,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-color);
 }
 
-/* Animazione del lancio */
-@keyframes shake-and-roll {
-  0% { transform: rotate(0deg) scale(1); }
-  20% { transform: rotate(-20deg) scale(1.1) translateX(-5px); }
-  40% { transform: rotate(25deg) scale(1.2) translateY(5px); }
-  60% { transform: rotate(-15deg) scale(1.1) translateX(5px); }
-  80% { transform: rotate(10deg) scale(1.2) translateY(-5px); }
-  100% { transform: rotate(0deg) scale(1); }
-}
-
+/* Container del dado */
 .dice-container {
   background-color: var(--dice-bg);
   box-shadow: 0 10px 20px var(--dice-shadow), inset 0 0 15px rgba(0,0,0,0.05);
@@ -34,18 +28,43 @@ body {
   justify-content: center;
   cursor: default;
   user-select: none;
+  transition: transform 0.1s ease;
+  margin: 0 auto;
 }
 
-/* Questa classe verrà applicata quando isRolling è true */
+/* Animazione del lancio (mix delle due) */
 .rolling {
   animation: shake-and-roll 0.15s infinite linear;
 }
 
-button:active {
-  transform: scale(0.95);
+@keyframes shake-and-roll {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-15deg) scale(1.1) translateX(-5px); }
+  50% { transform: rotate(20deg) scale(1.15) translateY(5px); }
+  75% { transform: rotate(-10deg) scale(1.1) translateX(5px); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+/* Stile bottoni griglia dadi */
+button {
+  transition: all 0.2s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 button:hover:not(:disabled) {
   filter: brightness(1.1);
   box-shadow: 0 4px 12px rgba(0, 112, 243, 0.3);
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.95) translateY(0);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
